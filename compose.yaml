@@ -3,12 +3,12 @@ services:
     image: mysql:8.0
     container_name: revive-mysql
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./mysql_data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: revive
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     networks:
       - revive-net
   php-apache:
@@ -16,7 +16,7 @@ services:
     container_name: revive-apache
     command: /bin/bash -c "chown -R www-data:www-data /var/www/html && chmod -R 775 /var/www/html && apache2-foreground"
     volumes:
-      - apache_data:/var/www/html
+      - ./apache_data:/var/www/html
     ports:
       - "8080:80"
     environment:
